@@ -14,8 +14,8 @@ lazy val sexpress = crossProject.in(file(".")).
     scalacOptions += "-feature",
     libraryDependencies ++= Seq(
       "org.parboiled" %% "parboiled" % "2.1.2",
-      "com.typesafe.akka" %% "akka-slf4j" % "2.3.15"
+      "com.typesafe.akka" %% "akka-slf4j" % "2.3.15",
+      "org.scalaz" %% "scalaz-core" % "latest.integration")
     )
-  )
 lazy val sexpressJVM = sexpress.jvm
 lazy val sexpressJS  = sexpress.js

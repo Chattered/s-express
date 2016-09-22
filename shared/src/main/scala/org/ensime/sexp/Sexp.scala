@@ -4,6 +4,8 @@ package org.ensime.sexp
 
 import collection.breakOut
 import scala.collection.immutable.ListMap
+import scalaz._
+import Scalaz._
 
 /**
  * An S-Expression is either
@@ -115,5 +117,40 @@ object SexpData {
         Some(props)
 
     case _ => None
+  }
+}
+
+object Sexp {
+  implicit def SexpIsOrder: Order[Sexp] = new Order[Sexp] {
+    def order(x: Sexp, y: Sexp): Ordering = (x,y) match {
+      case (SexpChar(c1), SexpChar(c2)) => c1 ?|? c2
+      case (SexpChar(_), _) => Ordering.LT
+      case (_, SexpChar(_)) => Ordering.GT
+      case (SexpString(s1), SexpString(s2)) => s1 ?|? s2
+      case (SexpString(_), _) => Ordering.LT
+      case (_, SexpString(_)) => Ordering.GT
+      case (SexpNumber(m), SexpNumber(n)) => m ?|? n
+      case (SexpNumber(_), _) => Ordering.LT
+      case (_, SexpNumber(_)) => Ordering.GT
+      case (SexpSymbol(s1), SexpSymbol(s2)) => s1 ?|? s2
+      case (SexpSymbol(_), _) => Ordering.LT
+      case (_, SexpSymbol(_)) => Ordering.GT
+      case (SexpNil, SexpNil) => Ordering.EQ
+      case (SexpNil, _) => Ordering.LT
+      case (_, SexpNil) => Ordering.GT
+      case (SexpPosInf, SexpPosInf) => Ordering.EQ
+      case (SexpPosInf, _) => Ordering.LT
+      case (_, SexpPosInf) => Ordering.GT
+      case (SexpNegInf, SexpNegInf) => Ordering.EQ
+      case (SexpNegInf, _) => Ordering.LT
+      case (_, SexpNegInf) => Ordering.GT
+      case (SexpNaN, SexpNaN) => Ordering.EQ
+      case (SexpNaN, _) => Ordering.LT
+      case (_, SexpNaN) => Ordering.GT
+      case (SexpCons(car1, cdr1), SexpCons(car2, cdr2)) =>
+        (car1 ?|? car2) |+| (cdr2 ?|? cdr2)
+      case (SexpCons(_, _), _) => Ordering.LT
+      case (_, SexpCons(_, _)) => Ordering.GT
+    }
   }
 }
