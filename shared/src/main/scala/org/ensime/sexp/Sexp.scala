@@ -1,4 +1,5 @@
 // Copyright: 2010 - 2016 https://github.com/ensime/ensime-server/graphs
+// Copyright (c) 2014-2016 University of Edinburgh
 // License: http://www.gnu.org/licenses/lgpl-3.0.en.html
 package org.ensime.sexp
 
