@@ -149,7 +149,7 @@ object Sexp {
       case (SexpNaN, _) => Ordering.LT
       case (_, SexpNaN) => Ordering.GT
       case (SexpCons(car1, cdr1), SexpCons(car2, cdr2)) =>
-        (car1 ?|? car2) |+| (cdr2 ?|? cdr2)
+        (car1 ?|? car2) |+| (cdr1 ?|? cdr2)
       case (SexpCons(_, _), _) => Ordering.LT
       case (_, SexpCons(_, _)) => Ordering.GT
     }
